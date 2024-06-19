@@ -66,6 +66,9 @@ async function createInvoiceLink(amount) {
   try {
       const response = await axios.post(send_url, invoiceData);
       console.log('createInvoiceLink sent:', response.data);
+      const invoiceLink = response.data.result;
+      console.log('Invoice link created:', invoiceLink);
+      window.location.href = invoiceLink;
   } catch (error) {
       console.error('Error createInvoiceLink invoice:', error);
   }
