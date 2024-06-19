@@ -1,4 +1,5 @@
 var BOT_TOKEN = `7105348596:AAHjeN6oJ-UAyvI4MprXVY-gZgEAhxxgwS8`;
+var stripe = Stripe('afrn-dgdd-ixfa-nogc-evya');
 var CHAT_ID = null;
 var URL = `https://api.telegram.org/bot${BOT_TOKEN}`;
 var txList = [];
@@ -76,7 +77,7 @@ function renderList(list) {
   if (list.length > 0) {
       list.forEach(item => {
           const listItem = document.createElement('div');
-          listItem.textContent = `ID: ${item.id}, Name: ${item.name}`;
+        listItem.textContent = `ID: ${item.id}, Date: ${item.date}, amount: ${item.amount}, source: ${JSON.stringify(item?.source || '')}, receiver: ${JSON.stringify(item?.receiver || '')}`;
           listContent.appendChild(listItem);
       });
     
@@ -99,6 +100,25 @@ async function getTxList() {
         console.error('Error getTxList:', error);
     }
 }
+ async function getUsdPayments() {
+    const response = await fetch('/list-usd-payments');
+    const payments = await response.json();
+
+    const paymentListDiv = document.getElementById('listContent');
+    paymentListDiv.innerHTML = '<h2>USD Payments:</h2>';
+    
+    if (payments.length === 0) {
+        paymentListDiv.innerHTML += '<p>No USD payments found.</p>';
+    } else {
+        const ul = document.createElement('ul');
+        payments.forEach(payment => {
+            const li = document.createElement('li');
+            li.textContent = `Amount: ${(payment.amount / 100).toFixed(2)} ${payment.currency.toUpperCase()}, Description: ${payment.description}`;
+            ul.appendChild(li);
+        });
+        paymentListDiv.appendChild(ul);
+    }
+}
 document.addEventListener('DOMContentLoaded', function () {
   console.log("🚀 ~ DOMContentLoaded:")
   getChatId();
@@ -110,7 +130,10 @@ document.addEventListener('DOMContentLoaded', function () {
   document.getElementById('btnBuy5USD').addEventListener('click', function () {
       sendInvoiceUSD(500);  // 500 = 5.00 USD
   });
-   document.getElementById('btnGetList').addEventListener('click', function () {
+  document.getElementById('btnGetList').addEventListener('click', function () {
       getTxList(); 
+  });
+  document.getElementById('btnGetUSDList').addEventListener('click', function () {
+      getUsdPayments(); 
   });
 })
