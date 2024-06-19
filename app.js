@@ -22,19 +22,30 @@ async function getChatId() {
 async function sendInvoice() {
         const send_url = `${URL}/sendInvoice`;
 
+        // const invoiceData = {
+        //     chat_id: CHAT_ID,
+        //     title: 'Buy 5 Telegram Stars',
+        //     description: 'Purchase 5 Telegram Stars',
+        //     payload: 'Custom-Payload',
+        //     provider_token: '',
+        //     currency: 'XTR',
+        //     photo_url:'https://fptshop.com.vn/uploads/originals/2023/11/22/638362929279006187_game-naruto_.jpg',
+        //     prices: [
+        //         { label: '5 Telegram Stars', amount: 5 }  // 500 = 5.00 USD
+        //     ]
+        // };
         const invoiceData = {
-            chat_id: CHAT_ID,
-            title: 'Buy 5 Telegram Stars',
-            description: 'Purchase 5 Telegram Stars',
-            payload: 'Custom-Payload',
-            provider_token: '',
-            currency: 'XTR',
-            photo_url:'https://fptshop.com.vn/uploads/originals/2023/11/22/638362929279006187_game-naruto_.jpg',
-            prices: [
-                { label: '5 Telegram Stars', amount: 5 }  // 500 = 5.00 USD
-            ]
-        };
-
+          chat_id: CHAT_ID,
+          title: 'Buy item with 5$',
+          description: 'Purchase Buy item with 5$',
+          payload: 'Custom-Payload',
+          provider_token: '284685063:TEST:NWZhM2JlM2EwNzhl',
+          currency: 'USD',
+          photo_url:'https://fptshop.com.vn/uploads/originals/2023/11/22/638362929279006187_game-naruto_.jpg',
+          prices: [
+              { label: 'Buy item with 5$', amount: 5 }  // 500 = 5.00 USD
+          ]
+      };
         try {
             const response = await axios.post(send_url, invoiceData);
             console.log('Invoice sent:', response.data);
