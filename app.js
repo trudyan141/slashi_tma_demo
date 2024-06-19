@@ -19,47 +19,61 @@ async function getChatId() {
       console.error('Error getting updates:', error);
   }
 }
-async function sendInvoice() {
-        const send_url = `${URL}/sendInvoice`;
+async function sendInvoice(amount) {
+  const send_url = `${URL}/sendInvoice`;
 
-        // const invoiceData = {
-        //     chat_id: CHAT_ID,
-        //     title: 'Buy 5 Telegram Stars',
-        //     description: 'Purchase 5 Telegram Stars',
-        //     payload: 'Custom-Payload',
-        //     provider_token: '',
-        //     currency: 'XTR',
-        //     start_parameter: 'test',
-        //     photo_url:'https://fptshop.com.vn/uploads/originals/2023/11/22/638362929279006187_game-naruto_.jpg',
-        //     prices: [
-        //         { label: '5 Telegram Stars', amount: 5 }  // 500 = 5.00 USD
-        //     ]
-        // };
-        const invoiceData = {
-          chat_id: CHAT_ID,
-          title: 'Buy item with 5$',
-          description: 'Purchase Buy item with 5$',
-          payload: 'Custom-Payload',
-          provider_token: '284685063:TEST:NWZhM2JlM2EwNzhl',
-          currency: 'USD',
-          start_parameter: 'test',
-          photo_url:'https://fptshop.com.vn/uploads/originals/2023/11/22/638362929279006187_game-naruto_.jpg',
-          prices: [
-              { label: 'Buy item with 5$', amount: 500 }  // 500 = 5.00 USD
-          ]
-      };
-        try {
-            const response = await axios.post(send_url, invoiceData);
-            console.log('Invoice sent:', response.data);
-        } catch (error) {
-            console.error('Error sending invoice:', error);
-        }
+  const invoiceData = {
+      chat_id: CHAT_ID,
+      title: 'Buy 5 Telegram Stars',
+      description: 'Purchase 5 Telegram Stars',
+      payload: 'payload-stars',
+      provider_token: '',
+      currency: 'XTR',
+      start_parameter: 'test',
+      photo_url:'https://fptshop.com.vn/uploads/originals/2023/11/22/638362929279006187_game-naruto_.jpg',
+      prices: [
+          { label: '5 Telegram Stars', amount: amount }  // 500 = 5.00 USD
+      ]
+  };
+  
+  try {
+      const response = await axios.post(send_url, invoiceData);
+      console.log('Invoice sent:', response.data);
+  } catch (error) {
+      console.error('Error sending invoice:', error);
+  }
+}
+async function sendInvoiceUSD(amount) {
+    const send_url = `${URL}/sendInvoice`;
+
+    const invoiceData = {
+      chat_id: CHAT_ID,
+      title: 'Buy item with 5$',
+      description: 'Purchase Buy item with 5$',
+      payload: 'payload-usd',
+      provider_token: '284685063:TEST:NWZhM2JlM2EwNzhl',
+      currency: 'USD',
+      start_parameter: 'test',
+      photo_url:'https://fptshop.com.vn/uploads/originals/2023/11/22/638362929279006187_game-naruto_.jpg',
+      prices: [
+          { label: 'Buy item with 5$', amount: amount }  
+      ]
+  };
+    try {
+        const response = await axios.post(send_url, invoiceData);
+        console.log('Invoice sent:', response.data);
+    } catch (error) {
+        console.error('Error sending invoice:', error);
     }
+}
 document.addEventListener('DOMContentLoaded', function () {
   console.log("🚀 ~ DOMContentLoaded:")
   getChatId();
   // Thêm sự kiện click cho nút
   document.getElementById('btnBuy5').addEventListener('click', function () {
       sendInvoice(5);
+  });
+  document.getElementById('btnBuy5USD').addEventListener('click', function () {
+      sendInvoiceUSD(500);  // 500 = 5.00 USD
   });
 })
