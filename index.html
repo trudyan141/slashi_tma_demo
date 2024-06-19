@@ -23,16 +23,19 @@
     </style>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/1.2.1/axios.min.js"></script>
     <script src="https://telegram.org/js/telegram-web-app.js"></script>
+    <script src="https://telegram.org/js/telegram-widget.js?14" async></script>
     <script src="https://unpkg.com/@tonconnect/ui@latest/dist/tonconnect-ui.min.js"></script>
     <script src="https://js.stripe.com/v3/"></script>
     <script src="./app.js"></script>
 </head>
 <body>
     <h1>Welcome to the Telegram Mini App</h1>
+    <div id="telegram-login"></div>
     <div id="user-id">User ID will be displayed here.</div>
     <div id="ton-connect"></div>
    
     <script>
+       
         const tonConnectUI = new TON_CONNECT_UI.TonConnectUI({
             manifestUrl: 'https://sla-shi.github.io/tma_demo/tonconnect-manifest.json',
             buttonRootId: 'ton-connect',

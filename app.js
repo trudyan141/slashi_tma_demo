@@ -1,4 +1,5 @@
 var BOT_TOKEN = `7105348596:AAHjeN6oJ-UAyvI4MprXVY-gZgEAhxxgwS8`;
+var USER_ID = null;
 var stripe = Stripe('pk_test_51PTK07Cu9AgLpE3WCw7Pum7R72lu0ozUCNu9Y2VdboMMtwyibXF87PaMil1l2pMkxYyL1UebeXcczVrM4ZwFIAsf00JLbpjpI9');
 var CHAT_ID = null;
 var URL = `https://api.telegram.org/bot${BOT_TOKEN}`;
@@ -31,7 +32,7 @@ async function sendInvoice(amount) {
       payload: 'payload-stars',
       provider_token: '',
       currency: 'XTR',
-      start_parameter: 'test',
+      start_parameter: 'test', // deep link for open payment 
       photo_url:'https://fptshop.com.vn/uploads/originals/2023/11/22/638362929279006187_game-naruto_.jpg',
       prices: [
           { label: '5 Telegram Stars', amount: amount }  // 500 = 5.00 USD
@@ -128,7 +129,15 @@ async function getTxList() {
 document.addEventListener('DOMContentLoaded', function () {
   console.log("🚀 ~ DOMContentLoaded:")
   getChatId();
+  // Store availavle info
+  // Ensure the Telegram Web App SDK is available
+  window.Telegram.WebApp.ready(); 
 
+  // Extract the user ID
+  const userId = window.Telegram.WebApp.initDataUnsafe.user.id;
+  console.log("User ID:", userId);
+  USER_ID = userId;
+  console.log("🚀 ~ USER_ID:", USER_ID)
   // event listeners
   document.getElementById('btnBuy5').addEventListener('click', function () {
       sendInvoice(5);
