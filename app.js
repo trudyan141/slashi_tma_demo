@@ -1,6 +1,5 @@
 var BOT_TOKEN = `7105348596:AAHjeN6oJ-UAyvI4MprXVY-gZgEAhxxgwS8`;
 var USER_ID = null;
-var stripe = Stripe('pk_test_51PTK07Cu9AgLpE3WCw7Pum7R72lu0ozUCNu9Y2VdboMMtwyibXF87PaMil1l2pMkxYyL1UebeXcczVrM4ZwFIAsf00JLbpjpI9');
 var CHAT_ID = null;
 var URL = `https://api.telegram.org/bot${BOT_TOKEN}`;
 var txList = [];
@@ -22,30 +21,30 @@ async function getChatId() {
       console.error('Error getting updates:', error);
   }
 }
-async function sendInvoice(amount) {
-  const send_url = `${URL}/sendInvoice`;
+// async function sendInvoice(amount) {
+//   const send_url = `${URL}/sendInvoice`;
 
-  const invoiceData = {
-      chat_id: USER_ID,
-      title: `Buy ${amount} Telegram Stars`,
-      description: `Purchase  ${amount} Telegram Stars`,
-      payload: 'payload-stars',
-      provider_token: '',
-      currency: 'XTR',
-      start_parameter: 'buy_stars_demo', // deep link for open payment 
-      photo_url:'https://fptshop.com.vn/uploads/originals/2023/11/22/638362929279006187_game-naruto_.jpg',
-      prices: [
-          { label: `${amount} Telegram Stars`, amount: amount }  // 500 = 5.00 USD
-      ]
-  };
+//   const invoiceData = {
+//       chat_id: USER_ID,
+//       title: `Buy ${amount} Telegram Stars`,
+//       description: `Purchase  ${amount} Telegram Stars`,
+//       payload: 'payload-stars',
+//       provider_token: '',
+//       currency: 'XTR',
+//       start_parameter: 'buy_stars_demo', // deep link for open payment 
+//       photo_url:'https://fptshop.com.vn/uploads/originals/2023/11/22/638362929279006187_game-naruto_.jpg',
+//       prices: [
+//           { label: `${amount} Telegram Stars`, amount: amount }  // 500 = 5.00 USD
+//       ]
+//   };
   
-  try {
-      const response = await axios.post(send_url, invoiceData);
-      console.log('Invoice sent:', response.data);
-  } catch (error) {
-      console.error('Error sending invoice:', error);
-  }
-}
+//   try {
+//       const response = await axios.post(send_url, invoiceData);
+//       console.log('Invoice sent:', response.data);
+//   } catch (error) {
+//       console.error('Error sending invoice:', error);
+//   }
+// }
 async function createInvoiceLink(amount) {
   const send_url = `${URL}/createInvoiceLink`;
 
@@ -64,14 +63,13 @@ async function createInvoiceLink(amount) {
   };
   
   try {
-      const response = await axios.post(send_url, invoiceData);
-      console.log('createInvoiceLink sent:', response.data);
-      
+    const response = await axios.post(send_url, invoiceData);
+    console.log('createInvoiceLink sent:', response.data); 
     const invoiceLink = response.data.result;
     console.log('Invoice link created:', invoiceLink);
      if (invoiceLink) {
-        
           Telegram.WebApp.openInvoice(invoiceLink, function(status) {
+            console.log("🚀 ~ Telegram.WebApp.openInvoice ~ status:", status)
             if (status == 'paid') {
               Telegram.WebApp.close();
             } else if (status == 'failed') {
