@@ -27,15 +27,15 @@ async function sendInvoice(amount) {
 
   const invoiceData = {
       chat_id: USER_ID,
-      title: 'Buy 5 Telegram Stars',
-      description: 'Purchase 5 Telegram Stars',
+      title: `Buy ${amount} Telegram Stars`,
+      description: `Purchase  ${amount} Telegram Stars`,
       payload: 'payload-stars',
       provider_token: '',
       currency: 'XTR',
-      start_parameter: 'test', // deep link for open payment 
+      start_parameter: 'buy_stars_demo', // deep link for open payment 
       photo_url:'https://fptshop.com.vn/uploads/originals/2023/11/22/638362929279006187_game-naruto_.jpg',
       prices: [
-          { label: '5 Telegram Stars', amount: amount }  // 500 = 5.00 USD
+          { label: `${amount} Telegram Stars`, amount: amount }  // 500 = 5.00 USD
       ]
   };
   
