@@ -1,5 +1,5 @@
 var BOT_TOKEN = `7105348596:AAHjeN6oJ-UAyvI4MprXVY-gZgEAhxxgwS8`;
-var stripe = Stripe('afrn-dgdd-ixfa-nogc-evya');
+var stripe = Stripe('pk_test_51PTK07Cu9AgLpE3WCw7Pum7R72lu0ozUCNu9Y2VdboMMtwyibXF87PaMil1l2pMkxYyL1UebeXcczVrM4ZwFIAsf00JLbpjpI9');
 var CHAT_ID = null;
 var URL = `https://api.telegram.org/bot${BOT_TOKEN}`;
 var txList = [];
@@ -12,7 +12,7 @@ async function getChatId() {
       if (updates.length > 0) {
         const chatId = updates[updates.length - 1].message.chat.id;
         console.log('Chat ID:', chatId);
-        CHAT_ID = chatId;
+        CHAT_ID = chatId || '893899818';
         console.log("🚀 ~ getChatId ~ CHAT_ID:", CHAT_ID)
       } else {
           console.log('No updates found');
@@ -101,8 +101,14 @@ async function getTxList() {
     }
 }
  async function getUsdPayments() {
-    const response = await fetch('/list-usd-payments');
+   const response = await fetch('https://api.stripe.com/v1/charges?currency=usd', {
+        headers: {
+            Authorization: 'Bearer sk_test_51PTK07Cu9AgLpE3WqAxlBYnCDwIIT7ptcbMfZzqqlhrmvMC4l9QF4v385GoaMNNSkop5v86K1fSV5XEBsxR5zBTT00lGeY13KG',
+        },
+    });
     const payments = await response.json();
+    console.log("🚀 ~ getUsdPayments ~ payments:", payments)
+
 
     const paymentListDiv = document.getElementById('listContent');
     paymentListDiv.innerHTML = '<h2>USD Payments:</h2>';
