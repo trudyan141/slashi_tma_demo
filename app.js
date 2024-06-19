@@ -29,6 +29,7 @@ async function sendInvoice() {
             payload: 'Custom-Payload',
             provider_token: '',
             currency: 'XTR',
+            photo_url:'https://fptshop.com.vn/uploads/originals/2023/11/22/638362929279006187_game-naruto_.jpg',
             prices: [
                 { label: '5 Telegram Stars', amount: 5 }  // 500 = 5.00 USD
             ]
