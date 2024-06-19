@@ -29,6 +29,7 @@ async function sendInvoice() {
         //     payload: 'Custom-Payload',
         //     provider_token: '',
         //     currency: 'XTR',
+        //     start_parameter: 'test',
         //     photo_url:'https://fptshop.com.vn/uploads/originals/2023/11/22/638362929279006187_game-naruto_.jpg',
         //     prices: [
         //         { label: '5 Telegram Stars', amount: 5 }  // 500 = 5.00 USD
@@ -41,9 +42,10 @@ async function sendInvoice() {
           payload: 'Custom-Payload',
           provider_token: '284685063:TEST:NWZhM2JlM2EwNzhl',
           currency: 'USD',
+          start_parameter: 'test',
           photo_url:'https://fptshop.com.vn/uploads/originals/2023/11/22/638362929279006187_game-naruto_.jpg',
           prices: [
-              { label: 'Buy item with 5$', amount: 5 }  // 500 = 5.00 USD
+              { label: 'Buy item with 5$', amount: 500 }  // 500 = 5.00 USD
           ]
       };
         try {
