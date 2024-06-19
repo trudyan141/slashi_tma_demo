@@ -14,6 +14,12 @@
             font-size: 20px;
             color: blue;
         }
+        .payment-container{
+            margin-top: 24px;
+        }
+        .list-txs{
+            margin: 16px 0px;
+        }
     </style>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/1.2.1/axios.min.js"></script>
     <script src="https://telegram.org/js/telegram-web-app.js"></script>
@@ -24,11 +30,7 @@
     <h1>Welcome to the Telegram Mini App</h1>
     <div id="user-id">User ID will be displayed here.</div>
     <div id="ton-connect"></div>
-    <div class="buy-stars">
-        <button class="btn-buy" id="btnBuy5">  Buy item with 5 stars </button>
-        <button class="btn-buy" id="btnBuy5USD">  Buy item with 5$ </button>
-    </div>
-
+   
     <script>
         const tonConnectUI = new TON_CONNECT_UI.TonConnectUI({
             manifestUrl: 'https://sla-shi.github.io/tma_demo/tonconnect-manifest.json',
@@ -84,7 +86,19 @@
     <button onClick="mySendTransaction()">
         Buy an item for 0.2 TON
     </button>
-
+    <div class="payment-container"> 
+        <h1>Payment methods</h1>
+        <div class="buy-stars">
+            <button class="btn-buy" id="btnBuy5">  Buy item with 5 stars </button>
+            <button class="btn-buy" id="btnBuy5USD">  Buy item with 5$ </button>
+        </div>
+        <div class="list-txs">
+        <button class="btn-buy" id="btnGetList"> Get transaction list </button>
+        <div id="listContent"> 
+            
+        </div>
+    </div>
+    </div>
     <script>
         // Store availavle info
         // Ensure the Telegram Web App SDK is available

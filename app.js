@@ -1,6 +1,7 @@
 var BOT_TOKEN = `7105348596:AAHjeN6oJ-UAyvI4MprXVY-gZgEAhxxgwS8`;
 var CHAT_ID = null;
 var URL = `https://api.telegram.org/bot${BOT_TOKEN}`;
+var txList = [];
 async function getChatId() {
   try {
       const response = await axios.get(`${URL}/getUpdates`);
@@ -66,14 +67,50 @@ async function sendInvoiceUSD(amount) {
         console.error('Error sending invoice:', error);
     }
 }
+function renderList(list) {
+  const listContent = document.getElementById('listContent');
+  // Clear existing content
+  listContent.innerHTML = '';
+
+  // Check if list has data
+  if (list.length > 0) {
+      list.forEach(item => {
+          const listItem = document.createElement('div');
+          listItem.textContent = `ID: ${item.id}, Name: ${item.name}`;
+          listContent.appendChild(listItem);
+      });
+    
+  } 
+}
+async function getTxList() {
+  const get_url = `${URL}/getStarTransactions`;
+    try {
+      const response = await axios.get(get_url);
+      console.log('getTxList:', response.data);
+      txList = response.data?.result?.transactions || [];
+      console.log("🚀 ~ getTxList ~ txList:", txList)
+      if (txList.length > 0) {
+        renderList(txList);
+      } else { 
+        const listContent = document.getElementById('listContent');
+        listContent.textContent = `No data`;
+      }
+    } catch (error) {
+        console.error('Error getTxList:', error);
+    }
+}
 document.addEventListener('DOMContentLoaded', function () {
   console.log("🚀 ~ DOMContentLoaded:")
   getChatId();
-  // Thêm sự kiện click cho nút
+
+  // event listeners
   document.getElementById('btnBuy5').addEventListener('click', function () {
       sendInvoice(5);
   });
   document.getElementById('btnBuy5USD').addEventListener('click', function () {
       sendInvoiceUSD(500);  // 500 = 5.00 USD
+  });
+   document.getElementById('btnGetList').addEventListener('click', function () {
+      getTxList(); 
   });
 })
