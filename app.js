@@ -26,7 +26,7 @@ async function sendInvoice(amount) {
   const send_url = `${URL}/sendInvoice`;
 
   const invoiceData = {
-      chat_id: CHAT_ID,
+      chat_id: USER_ID,
       title: 'Buy 5 Telegram Stars',
       description: 'Purchase 5 Telegram Stars',
       payload: 'payload-stars',
@@ -50,7 +50,7 @@ async function sendInvoiceUSD(amount) {
     const send_url = `${URL}/sendInvoice`;
 
     const invoiceData = {
-      chat_id: CHAT_ID,
+      chat_id: USER_ID,
       title: 'Buy item with 5$',
       description: 'Purchase Buy item with 5$',
       payload: 'payload-usd',
