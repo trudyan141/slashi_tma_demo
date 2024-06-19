@@ -140,7 +140,7 @@ document.addEventListener('DOMContentLoaded', function () {
   console.log("🚀 ~ USER_ID:", USER_ID)
   // event listeners
   document.getElementById('btnBuy5').addEventListener('click', function () {
-      sendInvoice(5);
+      sendInvoice(1);
   });
   document.getElementById('btnBuy5USD').addEventListener('click', function () {
       sendInvoiceUSD(500);  // 500 = 5.00 USD
