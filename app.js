@@ -71,15 +71,15 @@ async function createInvoiceLink(amount) {
     console.log('Invoice link created:', invoiceLink);
      if (invoiceLink) {
         
-          Telegram.WebApp.openInvoice(result.invoice_url, function(status) {
+          Telegram.WebApp.openInvoice(invoiceLink, function(status) {
             if (status == 'paid') {
               Telegram.WebApp.close();
             } else if (status == 'failed') {
               Telegram.WebApp.HapticFeedback.notificationOccurred('error');
-              Cafe.showStatus('Payment has been failed.');
+              //Cafe.showStatus('Payment has been failed.');
             } else {
               Telegram.WebApp.HapticFeedback.notificationOccurred('warning');
-              Cafe.showStatus('You have cancelled this order.');
+              //Cafe.showStatus('You have cancelled this order.');
             }
           });
       
