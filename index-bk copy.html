@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Telegram Mini App</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+        }
+        #user-id {
+            margin-top: 20px;
+            font-size: 20px;
+            color: blue;
+        }
+        .payment-container{
+            margin-top: 24px;
+        }
+        .list-txs{
+            margin: 16px 0px;
+        }
+    </style>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/1.2.1/axios.min.js"></script>
+    <script src="https://telegram.org/js/telegram-web-app.js"></script>
+    <script src="https://unpkg.com/@tonconnect/ui@latest/dist/tonconnect-ui.min.js"></script>
+    <script src="./app.js"></script>
+</head>
+<body>
+    <h1>Welcome to the Telegram Mini App</h1>
+    <a href="javascript:Telegram.WebApp.openLink('https://click-dev.dmtp.tech/banners/click?id=66b4c784dc17918b1b0ce4c2&inventory_id=66b76628e7b2219c58656fab&wa=39oXQfuzAVeV2QaqYzmAWC8w9sgl7Bvvhu%2FnrBf2bYw%3D&url=https%3A%2F%2Fdmtp.tech&lang=en-GB&utm_source=&utm_medium=&utm_campaign=&session_id=54f79728-d1fe-43c7-81de-263bd71cc30c&tui=893899818');">Open link with telegram web app</a>
+    <div id="telegram-login"></div>
+     <a href="https://click-dev.dmtp.tech/banners/click?id=66b4c784dc17918b1b0ce4c2&inventory_id=66b76628e7b2219c58656fab&wa=39oXQfuzAVeV2QaqYzmAWC8w9sgl7Bvvhu%2FnrBf2bYw%3D&url=https%3A%2F%2Fdmtp.tech&lang=en-GB&utm_source=&utm_medium=&utm_campaign=&session_id=54f79728-d1fe-43c7-81de-263bd71cc30c&tui=893899818">Href link  </a>
+    <div id="user-id">User ID will be displayed here.</div>
+    <div id="ton-connect"></div>
+   
+    <script>
+       
+        const tonConnectUI = new TON_CONNECT_UI.TonConnectUI({
+            manifestUrl: 'https://sla-shi.github.io/tma_demo/tonconnect-manifest.json',
+            buttonRootId: 'ton-connect',
+            uiPreferences: {
+                borderRadius: 's',
+                twaReturnUrl: 'https://t.me/slashiDemoBot/telegram_stars_demo' // @slashiDemoBot
+            }
+        });
+        window.addEventListener('ton-connect-ui-connection-started', (event) => {
+            console.log('connection-started:', event.detail);
+        });
+        window.addEventListener('ton-connect-ui-connection-completed', (event) => {
+            console.log('connection-completed:', event.detail);
+        });
+        window.addEventListener('ton-connect-ui-connection-error', (event) => {
+            console.log('connection-error:', event.detail);
+        });
+        window.addEventListener('ton-connect-ui-transaction-sent-for-signature', (event) => {
+            console.log('transaction-sent-for-signature:', event.detail);
+        });
+        window.addEventListener('ton-connect-ui-transaction-signed', (event) => {
+            console.log('transaction-signed:', event.detail);
+            console.log("Transaction hash:");
+            console.log(event.detail.signed_transaction);
+        });
+        window.addEventListener('ton-connect-ui-transaction-signing-failed', (event) => {
+            console.log('transaction-signing-failed:', event.detail);
+        });
+
+        async function mySendTransaction() {
+            const transaction = {
+                validUntil: Math.round((Date.now() + Number(1000*300)) / 1000),
+                messages: [
+                    {
+                        address: "0:787b323b31ca300f0deb830783944caf2cc75be18c78c7079d94fb3928230cc1", 
+                        amount: "20000000" 
+                    }
+                ]
+            };
+
+            try {
+                const result = await tonConnectUI.sendTransaction(transaction);
+                console.log('Transaction was sent with sendTransaction()');
+            } catch (e) {
+                console.log("Exception: ")
+                console.error(e);
+                console.error(e.name);
+            }
+        }
+    </script>
+    
+    <button onClick="mySendTransaction()">
+        Buy an item for 0.2 TON
+    </button>
+    <div class="payment-container"> 
+        <h1>Payment methods</h1>
+        <div class="buy-stars">
+            <button class="btn-buy" id="btnBuy5">  Buy item with 5 stars </button>
+            <button class="btn-buy" id="btnBuy5USD">  Buy item with 5$ </button>
+        </div>
+        <div class="list-txs">
+        <button class="btn-buy" id="btnGetList"> Get star transaction list </button>
+        <button class="btn-buy" id="btnGetUSDList"> Get USD transaction list </button>
+        <div id="listContent"> 
+            
+        </div>
+    </div>
+    </div>
+    <script>
+        // Store availavle info
+        // Ensure the Telegram Web App SDK is available
+        window.Telegram.WebApp.ready();
+
+        // Extract the user ID
+        const userId = window.Telegram.WebApp.initDataUnsafe.user.id;
+        console.log("User ID:", userId);
+
+        // Display the user ID on the page
+        document.getElementById('user-id').innerText = `User ID: ${userId}`;
+
+    </script>
+
+     <!-- Eruda is console for mobile browsers -->
+     <script src="https://cdn.jsdelivr.net/npm/eruda"></script>
+     <script>eruda.init();</script>
+</body>
+</html>
