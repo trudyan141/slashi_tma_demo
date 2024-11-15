@@ -90,7 +90,7 @@
             checkUserConversionButton.addEventListener('click', async function() {
                 try {
                 const tui = await getTelegramUserId();
-                const url = 'https://click-dev.dmtp.tech/banners/events?wa=39oXQfuzAVeV2QaqYzmAWC8w9sgl7Bvvhu%2FnrBf2bYw%3D&offset=0&limit=10&tui=telegram_user_id';
+                const url = 'https://click-dev.dmtp.tech/banners/events?wa=39oXQfuzAVeV2QaqYzmAWC8w9sgl7Bvvhu%2FnrBf2bYw%3D&offset=0&limit=10' + '&tui=' + await getTelegramUserId();
                 const response = await fetch(url);
                 const data = await response.json();
                 console.log("🚀 ~ checkUserConversion ~ data:", data)
