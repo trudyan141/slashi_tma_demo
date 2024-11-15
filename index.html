@@ -1,46 +1,104 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-    <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>MyProduct - Product Description</title>
-   <script src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
-    <script src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/babel-standalone/6.26.0/babel.min.js"></script>
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/tailwindcss/2.2.19/tailwind.min.css" rel="stylesheet">
-    <script src="https://unpkg.com/lucide@latest"></script>
+    <script src="https://tma-demo.dmtp.tech/sdk/0.0.8/bec.js?walletAddress=39oXQfuzAVeV2QaqYzmAWC8w9sgl7Bvvhu%2FnrBf2bYw%3D" ></script>
+    <script src="https://telegram.org/js/telegram-web-app.js"></script>
+    <style> 
+        h1{
+            text-align: center;
+        }
+        #exchangeBanner{
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        #openOfferWallButton{
+            margin-top: 120px;
+            margin-left: 120px;
+        }
+    </style>
 </head>
 <body>
-    <div id="root"></div>
-
-    <script type="text/babel">
-        const { useState, useEffect } = React;
-        const LandingPage = () => {
-            useEffect(() => {
-                const script = document.createElement('script');
-                script.src = "https://tma-demo.dmtp.tech/sdk/0.0.6/bec.js?walletAddress=39oXQfuzAVeV2QaqYzmAWC8w9sgl7Bvvhu%2FnrBf2bYw%3D";
-                script.async = true;
-                document.body.appendChild(script);
-                return () => {
-                document.body.removeChild(script);
-                };
-            }, []);
-            return (
-                <div className="min-h-screen flex flex-col">
-                    <div id="exchangeBanner" style={{ minHeight: '100px' }}></div> 
-                    <button id="openOfferWallButton" onClick={() =>{
-                        if (TE && typeof TE.offerWall === 'function') {
-                            TE.offerWall();
-                        } else {
-                            console.error('TE is not defined or offerWall is not a function');
-                        }
-                    }}>Open Offer Wall</button>
-                </div>
-            );
-        };
-
-        ReactDOM.render(<LandingPage />, document.getElementById('root'));
+    <h1>DEMO BANNER EXCHANGE CODE</h1>
+    <div class="main-content"> 
+    
+    </div>
+    <!--example to open offer wall -->
+    <button id="openOfferWallButton">Open Offer Wall</button>
+    <!--example to check user conversion -->
+    <button id="checkUserConversionButton">Check User Conversion</button>
+    <script>
+        // call onLoad to initialize the library
+        if (TE && typeof TE.onLoad === 'function') {
+            TE.onLoad()
+        } else {
+            console.error('onLoad is not a function');
+        }
+        // function get telegram user id
+        async function getTelegramUserId() {
+            try {
+                const telegram = window.Telegram;
+                if (telegram && telegram.WebApp) {
+                    telegram.WebApp.ready();
+                    const userId = telegram.WebApp?.initDataUnsafe?.user?.id || '';
+                    return userId;
+                } else {
+                    console.error('Telegram Web App SDK is not available');
+                    return '';
+                }
+            } catch (error) {
+                console.error(error);
+                return '';
+            }
+        }
+        document.addEventListener('becLoaded', function (event) {
+            // load the offer wall style config
+            TE.configureOfferWallStyle({
+                topBar: {
+                    backgroundColor: '#2c3e50',
+                    textColor: '#ecf0f1'
+                },
+                content: {
+                    backgroundColor: '#34495e',
+                    appNameColor: '#ecf0f1',
+                    appDescriptionColor: '#bdc3c7'
+                },
+                button: {
+                    backgroundColor: '#3498db',
+                    textColor: '#ffffff',
+                    highlightedBackgroundColor: '#2980b9',
+                    highlightedTextColor: '#ffffff',
+                    outlineColor: '#3498db'
+                }
+            });
+        });
+        // action to open offer wall
+        document.addEventListener('DOMContentLoaded', function() {
+            const openOfferWallButton = document.getElementById('openOfferWallButton');
+            openOfferWallButton.addEventListener('click', function() {
+                if (TE && typeof TE.offerWall === 'function') {
+                    TE.offerWall();
+                } else {
+                    console.error('TE is not defined or offerWall is not a function');
+                }
+            });
+        });
+        // action to check user conversion
+        document.addEventListener('DOMContentLoaded', function() {
+            const checkUserConversionButton = document.getElementById('checkUserConversionButton');
+            checkUserConversionButton.addEventListener('click', async function() {
+                try {
+                const tui = await getTelegramUserId();
+                const url = 'https://click-dev.dmtp.tech/banners/events?wa=39oXQfuzAVeV2QaqYzmAWC8w9sgl7Bvvhu%2FnrBf2bYw%3D&offset=0&limit=10&tui=telegram_user_id';
+                const response = await fetch(url);
+                const data = await response.json();
+                console.log("🚀 ~ checkUserConversion ~ data:", data)
+                } catch (error) {
+                console.log("🚀 ~ checkUserConversion ~ error:", error);
+                }
+            });
+        });
     </script>
 </body>
 </html>
-
