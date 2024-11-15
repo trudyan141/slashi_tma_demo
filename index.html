@@ -21,7 +21,7 @@
     <script type="text/babel">
         const { useState, useEffect } = React;
         const LandingPage = () => {
-            async function getTelegramUserId() {
+            function getTelegramUserId() {
                 try {
                     const telegram = window.Telegram;
                     if (telegram && telegram.WebApp) {
@@ -79,8 +79,8 @@
                         }}>Open Offer Wall</button>
                         <button id="checkUserConversionButton" onClick={async () =>{
                             try {
-                               //const tui = await getTelegramUserId();
-                                const url = 'https://click-dev.dmtp.tech/banners/events?wa=39oXQfuzAVeV2QaqYzmAWC8w9sgl7Bvvhu%2FnrBf2bYw%3D&offset=0&limit=10' + '&tui=' + await getTelegramUserId();
+                               //const tui = getTelegramUserId();
+                                const url = 'https://click-dev.dmtp.tech/banners/events?wa=39oXQfuzAVeV2QaqYzmAWC8w9sgl7Bvvhu%2FnrBf2bYw%3D&offset=0&limit=10' + '&tui=' + getTelegramUserId();
                                 const response = await fetch(url);
                                 const data = await response.json();
                                 console.log("🚀 ~ checkUserConversion ~ data:", data)
