@@ -27,6 +27,8 @@
                     if (telegram && telegram.WebApp) {
                         telegram.WebApp.ready();
                         const userId = telegram.WebApp && telegram.WebApp.initDataUnsafe && telegram.WebApp.initDataUnsafe.user && telegram.WebApp.initDataUnsafe.user.id || '';
+                        const initData = window.Telegram.WebApp.initData;
+                        console.log("🚀 ~ getTelegramUserId ~ initData:", initData)
                         return userId;
                     } else {
                         console.error('Telegram Web App SDK is not available');
